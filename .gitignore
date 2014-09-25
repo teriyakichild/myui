@@ -1,0 +1,6 @@
+*.pyc
+myui.egg-info
+build
+dist
+rpm-build
+rpms
