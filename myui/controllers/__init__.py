@@ -2,8 +2,6 @@ import tornado.web
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
-import tornado.web
-import unicodedata
 
 class Application(tornado.web.Application):
     def __init__(self,handlers,settings):

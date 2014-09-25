@@ -1,5 +1,9 @@
-'''/katherine/?([0-9]+)'''
 from myui.controllers import BaseHandler
+
+
+class params:
+    route='/katherine/?([0-9]+)'
+    pass
 
 class Handler(BaseHandler):
     def get(self, i):
