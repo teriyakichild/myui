@@ -18,6 +18,8 @@ if __name__ == "__main__":
         package_dir={NAME: NAME},
         package_data={
                   'myui': ['myui/*'],
+                  '/opt/myui/templates': ['myui/templates/templates.j2',
+                                          'myui/templates/templates2.j2'],
                      },
         include_package_data=True,
         description="MyUI - Easily customizable Tornado UI",

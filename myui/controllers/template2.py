@@ -7,4 +7,4 @@ class params:
 
 class Handler(BaseHandler):
     def get(self):
-        self.write('test')
+        self.render('template2.j2')
