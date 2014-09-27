@@ -2,6 +2,7 @@ import tornado.web
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
+import os
 
 class Application(tornado.web.Application):
     def __init__(self,handlers,settings):
@@ -15,7 +16,7 @@ def run_server(handlers):
     tornado.options.parse_command_line()
 
     tornado.options.define("app_title", default='My-UI')
-    tornado.options.define("template_path", default='templates', help="templates directory name")
+    tornado.options.define("template_path", default=os.path.join(os.path.dirname(os.path.realpath(__file__)).replace('controllers',''),'templates'), help="templates directory name")
     tornado.options.define("static_path", default='static', help="static files dirctory name")
     tornado.options.define("cookie_secret", default='this is my secret.  you dont know it.')
     tornado.options.define("debug", default=True, help="enable tornado debug mode")
