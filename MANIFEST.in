@@ -1,2 +1,2 @@
-recursive-include myui
+recursive-include myui *
 include README.md
