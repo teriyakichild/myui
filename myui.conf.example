@@ -1,0 +1,3 @@
+app_title='My-UI'
+cookie_secret='this is my secret.  you dont know it.'
+debug=True
