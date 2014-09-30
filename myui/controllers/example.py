@@ -9,4 +9,4 @@ class params:
 class Handler(BaseHandler):
     @tornado.web.removeslash
     def get(self):
-        self.render('example.j2')
+        self.render('example.html')

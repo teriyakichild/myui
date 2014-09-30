@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Canon Starter Template</title>
+  <title>My-UI Example{% block title %}{% end %}</title>
   <meta name="viewport" content="width=device-width">
   <link rel="stylesheet" type="text/css" href="https://eafdbc63c97ce6bec9ef-b0a668e5876bef6fe25684caf71db405.ssl.cf1.rackcdn.com/v1-latest/canon.min.css">
   <script type="application/javascript" src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
@@ -17,28 +17,30 @@
         </ul>
       </div>
     </div>
-    <div class="rs-nav-primary">
-      <div class="rs-container">
-        <div class="rs-nav-brand">
-          <a href="index.html"></a>
+    {% block nav %}
+        <div class="rs-nav-primary">
+          <div class="rs-container">
+            <div class="rs-nav-brand">
+              <a href="index.html"></a>
+            </div>
+            <ul class="rs-nav">
+              <li><a href="#">Link One</a></li>
+              <li><a href="#">Link Two</a></li>
+              <li><a href="#">Link Three</a></li>
+              <li><a href="#">Link Four</a></li>
+            </ul>
+          </div>
         </div>
-        <ul class="rs-nav">
-          <li><a href="#">Link One</a></li>
-          <li><a href="#">Link Two</a></li>
-          <li><a href="#">Link Three</a></li>
-          <li><a href="#">Link Four</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="rs-nav-secondary">
-      <div class="rs-container">
-        <ul class="rs-nav">
-          <li><a href="#">Subnav One</a></li>
-          <li><a href="#">Subnav Two</a></li>
-          <li><a href="#">Subnav Three</a></li>
-        </ul>
-      </div>
-    </div>
+        <div class="rs-nav-secondary">
+          <div class="rs-container">
+            <ul class="rs-nav">
+              <li><a href="#">Subnav One</a></li>
+              <li><a href="#">Subnav Two</a></li>
+              <li><a href="#">Subnav Three</a></li>
+            </ul>
+          </div>
+        </div>
+    {% end %}
     <div class="rs-body">
       <div class="rs-container">
         <div class="rs-main">
