@@ -14,7 +14,7 @@ if __name__ == "__main__":
         author_email="tony.rogers@rackspace.com",
         url="https://github.com/teriyakichild/myui",
         license='internal use',
-        packages=[NAME, 'myui/controllers'],
+        packages=[NAME],
         package_dir={NAME: NAME},
         package_data={
                   'myui': ['myui/*'],
@@ -22,7 +22,7 @@ if __name__ == "__main__":
         include_package_data=True,
         description="MyUI - Easily customizable Tornado UI",
 
-        install_requires=['tornado==3.2'],
+        install_requires=['tornado==4.0'],
         entry_points={
             'console_scripts': ['myui = myui:main'],
         }
