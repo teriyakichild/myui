@@ -1,4 +1,4 @@
-from myui.controllers import BaseHandler
+from myui import BaseHandler
 
 
 class params:
