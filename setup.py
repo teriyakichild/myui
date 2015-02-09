@@ -24,6 +24,7 @@ if __name__ == "__main__":
 
         install_requires=['tornado==4.0'],
         entry_points={
-            'console_scripts': ['myui = myui:main'],
+            'console_scripts': ['myui = myui:main',
+                                'myui-create-tables = myui:create_tables'],
         }
     )

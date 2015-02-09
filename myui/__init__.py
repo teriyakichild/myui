@@ -20,6 +20,8 @@ def parse_options():
 
     tornado.options.define("app_title", default='My-UI')
     tornado.options.define("controller_dir", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'controllers'), help="controllers directory")
+    tornado.options.define("model_dir", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'models'), help="models directory")
+
     tornado.options.define("template_path", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'templates'), help="templates directory name")
     tornado.options.define("static_path", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'static'), help="static files dirctory name")
     tornado.options.define("cookie_secret", default='this is my secret.  you dont know it.')
@@ -42,6 +44,32 @@ def run_server(handlers, settings):
     http_server = tornado.httpserver.HTTPServer(Application(handlers,settings))
     http_server.listen(tornado.options.options.port)
     tornado.ioloop.IOLoop.instance().start()
+
+def create_tables(get_settings=True):
+    if get_settings:
+        settings = parse_options()
+
+    if tornado.options.options.model_dir not in sys.path:
+        sys.path.insert(0, tornado.options.options.model_dir)
+
+    # Generating list of models
+    print 'Loading models.. ({0})'.format(tornado.options.options.model_dir)
+    files = os.walk(tornado.options.options.model_dir).next()[2]
+    dont_include = [ '__init__.py', '__init__.pyc' ]
+    list_of_models = [ re.sub('.py$', '', x) for x in filter(lambda c: c not in dont_include and re.search('.py$',c), files) ]
+
+    # Load models
+    models = {}
+    cursors = {}
+    for model in list_of_models:
+        models[model] = import_module(model, 'myui.models')
+        try:
+            cursors[model] = models[model].create_tables()
+        except:
+            print 'Failed to create tables for module'
+        else:
+            print 'Model[{0}] created'.format(model)
+    return cursors
 
 def main():
     settings = parse_options()
