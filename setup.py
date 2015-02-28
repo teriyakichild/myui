@@ -22,7 +22,7 @@ if __name__ == "__main__":
         include_package_data=True,
         description="MyUI - Easily customizable Tornado UI",
 
-        install_requires=['tornado==4.0'],
+        install_requires=['tornado>=4.0'],
         entry_points={
             'console_scripts': ['myui = myui:main',
                                 'myui-create-tables = myui:create_tables'],
