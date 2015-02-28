@@ -16,6 +16,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
 def parse_options():
     tornado.options.define("port", default="3000", help="webui port")
+    tornado.options.define("config_file", default="/etc/myui.conf", help="webui port")
     tornado.options.parse_command_line()
 
     tornado.options.define("app_title", default='My-UI')
@@ -27,7 +28,7 @@ def parse_options():
     tornado.options.define("cookie_secret", default='this is my secret.  you dont know it.')
     tornado.options.define("debug", default=True, help="enable tornado debug mode")
 
-    tornado.options.parse_config_file('/etc/myui.conf')
+    tornado.options.parse_config_file(tornado.options.options.config_file)
     tornado.options.parse_command_line()
 
     settings = dict(
