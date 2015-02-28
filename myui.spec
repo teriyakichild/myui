@@ -14,7 +14,7 @@ Source0:        %{module_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python-setuptools
 
-Requires: python-tornado
+Requires: python-tornado, python-importlib
 
 %description
 
@@ -33,6 +33,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc README.md
 %{python_sitelib}/*
 %attr(0755,-,-) %{_bindir}/myui
+%attr(0755,-,-) %{_bindir}/myui-create-tables
 
 %changelog
 * Wed Sep 24 2014 Tony Rogers <tony.rogers@rackspace.com> - 0.1.0-1
