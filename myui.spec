@@ -2,7 +2,7 @@
 
 %define module_name myui
 
-Name:           %{module_name}
+Name:           python-%{module_name}
 Version:        0.1.0
 Release:        1
 Summary:        MyUI - Easily customizable Tornado UI
@@ -14,7 +14,11 @@ Source0:        %{module_name}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python-setuptools
 
-Requires: python-tornado, python-importlib
+Requires: python-tornado
+
+%if 0%{?rhel} > 6
+Requires: python-importlib
+%endif
 
 %description
 
