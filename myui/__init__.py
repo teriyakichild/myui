@@ -20,6 +20,7 @@ def parse_options():
     tornado.options.parse_command_line()
 
     tornado.options.define("app_title", default='My-UI')
+    tornado.options.define("login_url", default='/login')
     tornado.options.define("controller_dir", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'controllers'), help="controllers directory")
     tornado.options.define("model_dir", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'models'), help="models directory")
 
@@ -32,6 +33,7 @@ def parse_options():
     tornado.options.parse_command_line()
 
     settings = dict(
+         login_url=tornado.options.options.login_url,
          app_title=tornado.options.options.app_title,
          template_path=tornado.options.options.template_path,
          static_path=tornado.options.options.static_path,
