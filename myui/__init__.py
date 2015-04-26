@@ -5,6 +5,7 @@ import tornado.web
 import tornado.httpserver
 import tornado.ioloop
 import tornado.options
+from types import ModuleType
 
 
 class Application(tornado.web.Application):
@@ -21,9 +22,7 @@ def parse_options():
 
     tornado.options.define("app_title", default='My-UI')
     tornado.options.define("login_url", default='/login')
-    tornado.options.define("controller_dir", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'controllers'), help="controllers directory")
-    tornado.options.define("model_dir", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'models'), help="models directory")
-
+    tornado.options.define("plugins", default="", help="comma-separated list of plugins that should be loaded")
     tornado.options.define("template_path", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'templates'), help="templates directory name")
     tornado.options.define("static_path", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'static'), help="static files dirctory name")
     tornado.options.define("cookie_secret", default='this is my secret.  you dont know it.')
@@ -52,46 +51,42 @@ def create_tables(get_settings=True):
     if get_settings:
         settings = parse_options()
 
-    if tornado.options.options.model_dir not in sys.path:
-        sys.path.insert(0, tornado.options.options.model_dir)
-
     # Generating list of models
-    print 'Loading models.. ({0})'.format(tornado.options.options.model_dir)
-    files = os.walk(tornado.options.options.model_dir).next()[2]
-    dont_include = [ '__init__.py', '__init__.pyc' ]
-    list_of_models = [ re.sub('.py$', '', x) for x in filter(lambda c: c not in dont_include and re.search('.py$',c), files) ]
-
-    # Load models
     models = {}
     cursors = {}
-    for model in list_of_models:
-        models[model] = import_module(model, 'myui.models')
-        try:
-            cursors[model] = models[model].create_tables()
-        except:
-            print 'Failed to create tables for module'
-        else:
-            print 'Model[{0}] created'.format(model)
+    for plugin in tornado.options.options.plugins.split(','):
+        print 'Loading models.. ({0})'.format(plugin)
+        list_of_models = generate_models(plugin)
+        for model in list_of_models:
+            models[model] = import_module('{0}.models.{1}'.format(plugin, model))
+            try:
+                cursors[model] = models[model].create_tables()
+            except:
+                print 'Failed to create tables for module'
+            else:
+                print 'Model[{0}] created'.format(model)
     return cursors
+
+def generate_models(plugin):
+    models = import_module('{0}.models'.format(plugin))
+    ret = [each for each in models.__all__]
+    return ret
+
+def generate_controllers(plugin):
+    controllers = import_module('{0}.controllers'.format(plugin))
+    ret = [each for each in controllers.__all__]
+    return ret
 
 def main():
     settings = parse_options()
 
-    # Add controller_dir to path
-    if tornado.options.options.controller_dir not in sys.path:
-        sys.path.insert(0, tornado.options.options.controller_dir)
-
-    # Generating list of controllers
-    print 'Loading controllers.. ({0})'.format(tornado.options.options.controller_dir)
-    files = os.walk(tornado.options.options.controller_dir).next()[2]
-    dont_include = [ '__init__.py', '__init__.pyc' ]
-    list_of_controllers = [ re.sub('.py$', '', x) for x in filter(lambda c: c not in dont_include and re.search('.py$',c), files) ]
-
-    # Load controllers
     controllers = {}
-    for controller in list_of_controllers:
-        controllers[controller] = import_module(controller, 'myui.controllers')
-        print 'Controller[{0}] loaded'.format(controller)
+    print 'Loading controllers..'
+    for plugin in tornado.options.options.plugins.split(','):
+        list_of_controllers = generate_controllers(plugin)
+        for controller in list_of_controllers:
+            controllers[controller] = import_module('{0}.controllers.{1}'.format(plugin, controller))
+            print 'Controller[{0}] loaded'.format(controller)
 
     # Build handlers
     print 'Adding routes..'

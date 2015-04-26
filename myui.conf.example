@@ -1,3 +1,7 @@
-app_title='My-UI'
-cookie_secret='this is my secret.  you dont know it.'
+app_title='Myui Example'
+cookie_secret='secret.'
 debug=True
+
+plugins='plugin'
+template_path='/usr/share/myui/templates'
+static_path='/usr/share/myui/static'

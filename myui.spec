@@ -15,8 +15,10 @@ BuildArch:      noarch
 BuildRequires:  python-setuptools
 
 Requires: python-tornado
+Requires: python-peewee
+Requires: python-ldap
 
-%if 0%{?rhel} > 6
+%if 0%{?rhel} > 5
 Requires: python-importlib
 %endif
 
