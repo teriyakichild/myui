@@ -23,6 +23,7 @@ def parse_options():
     tornado.options.define("app_title", default='My-UI')
     tornado.options.define("login_url", default='/login')
     tornado.options.define("plugins", default="", help="comma-separated list of plugins that should be loaded")
+    tornado.options.define("plugin_opts", default={}, help="Dictionary of plugin specific options")
     tornado.options.define("template_path", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'templates'), help="templates directory name")
     tornado.options.define("static_path", default=os.path.join(os.path.dirname(os.path.realpath(__file__)),'static'), help="static files dirctory name")
     tornado.options.define("cookie_secret", default='this is my secret.  you dont know it.')
@@ -38,6 +39,7 @@ def parse_options():
          static_path=tornado.options.options.static_path,
          cookie_secret=tornado.options.options.cookie_secret,
          debug=tornado.options.options.debug,
+         plugin_opts=tornado.options.options.plugin_opts
     )
     return settings
 
