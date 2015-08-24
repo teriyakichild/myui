@@ -32,7 +32,11 @@ def parse_options():
     tornado.options.parse_config_file(tornado.options.options.config_file)
     tornado.options.parse_command_line()
 
-    settings = dict(
+    return gen_settings()
+
+def gen_settings():
+    """Generate settings dict from tornado.options.options"""
+    return dict(
          login_url=tornado.options.options.login_url,
          app_title=tornado.options.options.app_title,
          template_path=tornado.options.options.template_path,
@@ -41,8 +45,6 @@ def parse_options():
          debug=tornado.options.options.debug,
          plugin_opts=tornado.options.options.plugin_opts
     )
-    return settings
-
 
 def run_server(handlers, settings):
     http_server = tornado.httpserver.HTTPServer(Application(handlers,settings))
@@ -52,19 +54,31 @@ def run_server(handlers, settings):
 def create_tables(get_settings=True):
     if get_settings:
         settings = parse_options()
+    else:
+        settings = gen_settings()
 
     # Generating list of models
     models = {}
     cursors = {}
     for plugin in tornado.options.options.plugins.split(','):
+        # Bootstrap plugin model settings if they exist
+        try:
+            plugin_model_opts = settings['plugin_opts'][plugin]['models']
+        except KeyError:
+            plugin_model_opts = None
+
         print 'Loading models.. ({0})'.format(plugin)
         list_of_models = generate_models(plugin)
         for model in list_of_models:
             models[model] = import_module('{0}.models.{1}'.format(plugin, model))
             try:
-                cursors[model] = models[model].create_tables()
-            except:
-                print 'Failed to create tables for module'
+                if plugin_model_opts:
+                    cursors[model] = models[model].create_tables(plugin_model_opts[model])
+                else:
+                    cursors[model] = models[model].create_tables()
+            except Exception as e:
+                # TODO: should this bail if databases aren't configured right...
+                print 'Failed to create tables for %s.%s: %s' % (plugin, model, e.message)
             else:
                 print 'Model[{0}] created'.format(model)
     return cursors
