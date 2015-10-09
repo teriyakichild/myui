@@ -1,5 +1,6 @@
-from setuptools import setup
 from sys import path
+
+from setuptools import setup
 
 path.insert(0, '.')
 
@@ -9,7 +10,7 @@ if __name__ == "__main__":
 
     setup(
         name=NAME,
-        version="0.1.0",
+        version="0.2.0",
         author="Tony Rogers",
         author_email="tony.rogers@rackspace.com",
         url="https://github.com/teriyakichild/myui",

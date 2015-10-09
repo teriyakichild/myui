@@ -5,3 +5,23 @@ debug=True
 plugins='plugin'
 template_path='/usr/share/myui/templates'
 static_path='/usr/share/myui/static'
+
+plugin_opts = {
+  'plugin': {
+    'session': {
+      'max_age_days': .6,
+      'expires_days': None
+    },
+    'auth': {
+      'method': 'ldap',
+      'ldap': {
+        'uri': 'ldaps://auth.example.com:636/',
+        'baseDN': 'ou=users,o=company',
+        },
+      'saml': {
+        'idp': 'urihere',
+        'certfile': 'pathhere',
+        'otherOpts': 'etc etc...'}
+      }
+    }
+  }
