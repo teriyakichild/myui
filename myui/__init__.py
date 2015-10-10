@@ -70,6 +70,7 @@ def gen_settings():
          cookie_secret=tornado.options.options.cookie_secret,
          debug=tornado.options.options.debug,
          plugin_opts=tornado.options.options.plugin_opts,
+         ui_modules=tornado.options.options.plugin_opts.get('ui_modules', None)
         #  access_log=tornado.options.options.access_log,
         #  application_log=tornado.options.options.application_log
     )

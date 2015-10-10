@@ -10,7 +10,7 @@ if __name__ == "__main__":
 
     setup(
         name=NAME,
-        version="0.2.0",
+        version="0.2.1",
         author="Tony Rogers",
         author_email="tony.rogers@rackspace.com",
         url="https://github.com/teriyakichild/myui",
